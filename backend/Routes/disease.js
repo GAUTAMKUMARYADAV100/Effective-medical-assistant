@@ -66,6 +66,7 @@ router.post("/diabetes", (req, res) => {
 });
 router.post("/heart", (req, res) => {
   try {
+    console.log("python script run hui p1")
     const data = req.body.data;
     const pythonProcess = spawn("python", [
       pythonScriptPathForHeart,
@@ -75,10 +76,22 @@ router.post("/heart", (req, res) => {
     ]);
     let prediction = "";
     let responseSent = false; // Flag to track if response has been sent
+    console.log("python script run hui p2")
 
     pythonProcess.stdout.on("data", (data) => {
-      console.log("Python script output:", data.toString());
-      prediction += data.toString();
+      const output = data.toString().trim(); 
+      console.log("Python script raw output:", output);
+    
+      // Try to extract JSON part (last line)
+      const lines = output.split("\n");
+      const lastLine = lines[lines.length - 1];
+    
+      try {
+        prediction = JSON.parse(lastLine);
+      } catch (err) {
+        console.error("Error parsing JSON prediction:", err);
+        prediction = null;
+      }
     });
 
     pythonProcess.stderr.on("data", (data) => {
@@ -87,8 +100,9 @@ router.post("/heart", (req, res) => {
 
     pythonProcess.on("close", (code) => {
       console.log("Python process closed with code:", code);
-      console.log("Prediction:", prediction);
+      console.log("Prediction123:", prediction);
       if (!responseSent) {
+        console.log("response gaya kya",prediction)
         res.json({ prediction });
         responseSent = true;
       }
