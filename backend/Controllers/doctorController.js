@@ -68,10 +68,11 @@ export const getSingleDoctor = async (req, res) => {
 
 export const getAllDoctors = async (req, res) => {
   const id = req.params.id;
+  
   try {
     const { query } = req.query;
     let doctors;
-
+    console.log("Search query:", query);
     if (query) {
       doctors = await Doctor.find({
         isApproved: "approved",
@@ -86,11 +87,14 @@ export const getAllDoctors = async (req, res) => {
       );
     }
 
+    console.log("tune meri entry",doctors);
+
     res.status(200).json({
       success: true,
       message: "Doctors Found",
       data: doctors,
     });
+
   } catch (error) {
     res.status(404).json({
       success: false,

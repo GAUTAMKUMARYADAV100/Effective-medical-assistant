@@ -17,6 +17,7 @@ const useFetchData = (url) => {
         });
 
         const result = await res.json();
+        console.log("result being fetched is",result)
 
         if (!res.ok) {
           throw new Error(result.message || "Failed to fetch");
