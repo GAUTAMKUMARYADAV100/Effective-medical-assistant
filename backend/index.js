@@ -14,6 +14,7 @@ import adminRoute from "./Routes/admin.js";
 import contactRoute from "./Routes/contact.js";
 import forgotPassRoute from "./Routes/forgot-password.js";
 import healthRoute from "./Routes/healthPredict.js";
+import healthRoutellm from "./Routes/healthPredictllm.js";
 
 dotenv.config();
 
@@ -63,6 +64,7 @@ app.use("/api/v1/admin", adminRoute);
 app.use("/api/v1/", contactRoute);
 app.use("/api/v1/", forgotPassRoute);
 app.use("/api/v1/", healthRoute);
+app.use("/api/v1/llm",healthRoutellm);
 
 // ✅ Start server
 app.listen(port, () => {

@@ -20,6 +20,7 @@ if len(sys.argv) < 4:
 
 # Parse JSON input
 try:
+   
     input_data = json.loads(sys.argv[3])
     
     # Convert values to float (ensures compatibility with LogisticRegression)
@@ -45,4 +46,6 @@ prediction = model.predict(data_array)
 
 # Send output in required JSON format
 print(json.dumps(prediction.tolist()))
+
+
 

@@ -35,6 +35,10 @@ const Login = () => {
       if (!res.ok) {
         throw new Error(result.message);
       }
+       // ✅ Store token in localStorage
+      localStorage.setItem("token", result.token);
+      localStorage.setItem("role", result.role);
+      localStorage.setItem("user", JSON.stringify(result.data));
 
       dispatch({
         type: "LOGIN_SUCCESS",

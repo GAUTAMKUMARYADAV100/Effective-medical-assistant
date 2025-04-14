@@ -6,6 +6,7 @@ import LiverDiseaseTest from "./LiverDiseaseTest.jsx";
 import BreastCancerDiseaseTest from "./BreastCancerDiseaseTest.jsx";
 import MalariaDiseaseTest from "./MalariaDiseaseTest.jsx";
 import PneumoniaDiseaseTest from "./PneumoniaDiseaseTest.jsx";
+import EyeDiseaseTest from "./EyeDiseaseTest.jsx";
 import ResultComponent from "./ResultComponent";
 
 const DiseasePage = ({ service }) => {
@@ -39,6 +40,13 @@ const DiseasePage = ({ service }) => {
       return (
         <>
           <PneumoniaDiseaseTest onPrediction={handlePrediction} />
+          {prediction !== null && <ResultComponent prediction={prediction} />}
+        </>
+      );
+    case "8":
+      return (
+        <>
+          <EyeDiseaseTest onPrediction={handlePrediction} />
           {prediction !== null && <ResultComponent prediction={prediction} />}
         </>
       );

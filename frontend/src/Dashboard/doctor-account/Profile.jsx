@@ -5,6 +5,8 @@ import { BASE_URL, token } from "../../config.js";
 import { toast } from "react-toastify";
 
 const Profile = ({ doctorData }) => {
+  
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -22,6 +24,8 @@ const Profile = ({ doctorData }) => {
   });
 
   useEffect(() => {
+    
+
     setFormData({
       name: doctorData?.name,
       email: doctorData?.email,
@@ -53,6 +57,8 @@ const Profile = ({ doctorData }) => {
     e.preventDefault();
 
     try {
+      console.log("Token in Profile.jsx:", token);
+      console.log("doctor id", doctorData._id);
       const res = await fetch(`${BASE_URL}/doctors/${doctorData._id}`, {
         method: "PUT",
         headers: {
@@ -176,7 +182,7 @@ const Profile = ({ doctorData }) => {
           <input
             type="text"
             name="name"
-            value={formData.name}
+            value={formData.name || ''}
             onChange={handleInputChange}
             placeholder="Full Name"
             className="form__input"
@@ -188,7 +194,7 @@ const Profile = ({ doctorData }) => {
           <input
             type="email"
             name="email"
-            value={formData.email}
+            value={formData.email || ''}
             onChange={handleInputChange}
             placeholder="Email"
             className="form__input"
@@ -203,7 +209,7 @@ const Profile = ({ doctorData }) => {
           <input
             type="number"
             name="phone"
-            value={formData.phone}
+            value={formData.phone || ''}
             onChange={handleInputChange}
             placeholder="Phone Number"
             className="form__input"
@@ -215,7 +221,7 @@ const Profile = ({ doctorData }) => {
           <input
             type="text"
             name="bio"
-            value={formData.bio}
+            value={formData.bio || ''}
             onChange={handleInputChange}
             placeholder="Bio"
             className="form__input"
@@ -229,7 +235,7 @@ const Profile = ({ doctorData }) => {
               <p className="form__label">Gender*</p>
               <select
                 name="gender"
-                value={formData.gender}
+                value={formData.gender || 'select'}
                 onChange={handleInputChange}
                 className="form__input py-3.5"
               >
@@ -244,7 +250,7 @@ const Profile = ({ doctorData }) => {
               <p className="form__label">Specialization*</p>
               <select
                 name="specialization"
-                value={formData.specialization}
+                value={formData.specialization || 'select'}
                 onChange={handleInputChange}
                 className="form__input py-3.5"
               >
@@ -261,7 +267,7 @@ const Profile = ({ doctorData }) => {
                 type="number"
                 placeholder="100"
                 name="ticketPrice"
-                value={formData.ticketPrice}
+                value={formData.ticketPrice || ''}
                 onChange={handleInputChange}
                 className="form__input"
               />
@@ -280,7 +286,7 @@ const Profile = ({ doctorData }) => {
                     <input
                       type="date"
                       name="startingDate"
-                      value={item.startingDate}
+                      value={item.startingDate || ''}
                       className="form__input"
                       onChange={(e) => handleQualificationChange(e, index)}
                     />
@@ -291,7 +297,7 @@ const Profile = ({ doctorData }) => {
                     <input
                       type="date"
                       name="endingDate"
-                      value={item.endingDate}
+                      value={item.endingDate || ''}
                       className="form__input"
                       onChange={(e) => handleQualificationChange(e, index)}
                     />
@@ -304,7 +310,7 @@ const Profile = ({ doctorData }) => {
                     <input
                       type="text"
                       name="degree"
-                      value={item.degree}
+                      value={item.degree || ''}
                       className="form__input"
                       onChange={(e) => handleQualificationChange(e, index)}
                     />
@@ -315,7 +321,7 @@ const Profile = ({ doctorData }) => {
                     <input
                       type="text"
                       name="university"
-                      value={item.university}
+                      value={item.university || ''}
                       className="form__input"
                       onChange={(e) => handleQualificationChange(e, index)}
                     />
@@ -351,7 +357,7 @@ const Profile = ({ doctorData }) => {
                     <input
                       type="date"
                       name="startingDate"
-                      value={item.startingDate}
+                      value={item.startingDate || ''}
                       className="form__input"
                       onChange={(e) => handleExperienceChange(e, index)}
                     />
@@ -362,7 +368,7 @@ const Profile = ({ doctorData }) => {
                     <input
                       type="date"
                       name="endingDate"
-                      value={item.endingDate}
+                      value={item.endingDate || ''}
                       className="form__input"
                       onChange={(e) => handleExperienceChange(e, index)}
                     />
@@ -375,7 +381,7 @@ const Profile = ({ doctorData }) => {
                     <input
                       type="text"
                       name="position"
-                      value={item.position}
+                      value={item.position || ''}
                       className="form__input"
                       onChange={(e) => handleExperienceChange(e, index)}
                     />
@@ -386,7 +392,7 @@ const Profile = ({ doctorData }) => {
                     <input
                       type="text"
                       name="hospital"
-                      value={item.hospital}
+                      value={item.hospital || ''}
                       className="form__input"
                       onChange={(e) => handleExperienceChange(e, index)}
                     />
@@ -421,12 +427,12 @@ const Profile = ({ doctorData }) => {
                     <p className="form__label">Day*</p>
                     <select
                       name="day"
-                      value={item.day}
+                      value={item.day || 'select'}
                       className="form__input py-3.5"
                       onChange={(e) => handleTimeSlotChange(e, index)}
                     >
                       <option value="select">Select</option>
-                      <option value="saturday"></option>
+                      <option value="saturday">Saturday</option>
                       <option value="sunday">Sunday</option>
                       <option value="monday">Monday</option>
                       <option value="tuesday">Tuesday</option>
@@ -441,7 +447,7 @@ const Profile = ({ doctorData }) => {
                     <input
                       type="time"
                       name="startingTime"
-                      value={item.startingTime}
+                      value={item.startingTime || ''}
                       className="form__input"
                       onChange={(e) => handleTimeSlotChange(e, index)}
                     />
@@ -452,7 +458,7 @@ const Profile = ({ doctorData }) => {
                     <input
                       type="time"
                       name="endingTime"
-                      value={item.endingTime}
+                      value={item.endingTime || ''}
                       className="form__input"
                       onChange={(e) => handleTimeSlotChange(e, index)}
                     />
@@ -483,7 +489,7 @@ const Profile = ({ doctorData }) => {
           <textarea
             name="about"
             rows={5}
-            value={formData.about}
+            value={formData.about || ''}
             placeholder="write about yourself..."
             onChange={handleInputChange}
             className="form__input"

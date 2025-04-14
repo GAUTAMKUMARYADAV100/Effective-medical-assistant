@@ -21,20 +21,39 @@ diets = pd.read_csv(r"C:\Users\Gautam Kumar Yadav\Desktop\tkinterpj\Effective-me
 with open("./aimodels/svc.pkl", 'rb') as model_fileL:
     model = pickle.load(model_fileL)
 
+# def get_predicted_value(symptoms):
+#     symptoms = symptoms.split(',')  # Split symptoms based on comma
+#     symptoms = [symptom.strip() for symptom in symptoms]  # Remove extra whitespace
+#     input_vector = np.zeros(len(symptoms_dict))
+#     warnings = []
+    
+#     for symptom in symptoms:
+#         if symptom in symptoms_dict:
+#             input_vector[symptoms_dict[symptom]] = 1
+#         else:
+#             warnings.append(f"Symptom '{symptom}' not found in symptoms_dict")
+    
+#     predicted_disease = diseases_list[model.predict([input_vector])[0]]
+    
+#     return predicted_disease, warnings
 def get_predicted_value(symptoms):
     symptoms = symptoms.split(',')  # Split symptoms based on comma
-    symptoms = [symptom.strip() for symptom in symptoms]  # Remove extra whitespace
-    input_vector = np.zeros(len(symptoms_dict))
+    symptoms = [symptom.strip().lower() for symptom in symptoms]  # Normalize input
+    
+    input_vector = np.zeros(len(symptoms_dict))  # Create a vector of zeros for input
+    
     warnings = []
     
     for symptom in symptoms:
         if symptom in symptoms_dict:
             input_vector[symptoms_dict[symptom]] = 1
         else:
-            warnings.append(f"Symptom '{symptom}' not found in symptoms_dict")
+            warnings.append(f"Warning: Symptom '{symptom}' not found in dataset.")
     
-    predicted_disease = diseases_list[model.predict([input_vector])[0]]
-    
+    # Get prediction from the model
+    predicted_index = model.predict([input_vector])[0]  
+    predicted_disease = diseases_list.get(predicted_index, "Unknown Disease")  
+
     return predicted_disease, warnings
 
 # ============================

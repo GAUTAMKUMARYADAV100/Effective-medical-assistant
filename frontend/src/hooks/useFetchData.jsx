@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { token } from "../config.js";
 
 const useFetchData = (url) => {
   const [data, setData] = useState([]);
@@ -10,23 +9,32 @@ const useFetchData = (url) => {
     const fetchData = async () => {
       setLoading(true);
       try {
+        const token = localStorage.getItem("token"); // move inside useEffect
         const res = await fetch(url, {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
+
         const result = await res.json();
 
         if (!res.ok) {
-          throw new Error(result.message + "🤢");
+          throw new Error(result.message || "Failed to fetch");
         }
+
         setData(result.data);
         setLoading(false);
       } catch (err) {
-        setLoading(false);
         setError(err.message);
+        setLoading(false);
       }
     };
+
     fetchData();
   }, [url]);
+
+  // console.log("data for the overview page is:-",data)
+
   return { data, loading, error };
 };
 

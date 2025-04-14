@@ -374,4 +374,58 @@ router.post("/predict-malaria", upload.single("image"), (req, res) => {
   }
 });
 
+
+router.post("/predict-eye-disease", upload.single("image"), (req, res) => {
+  let responseSent = false;
+
+  try {
+    const imagePath = req.file.path;
+
+    const pythonScriptPath = "C:\\Users\\Gautam Kumar Yadav\\Desktop\\tkinterpj\\Effective-medical-assistant\\EffectiveMedicalAssistant\\backend\\eye_disease.py";
+
+    const pythonProcess = spawn("python", [pythonScriptPath, imagePath]);
+
+    let output = "";
+
+    pythonProcess.stdout.on("data", (data) => {
+      output += data.toString();
+    });
+
+    pythonProcess.stderr.on("data", (data) => {
+      console.error("Python error:", data.toString());
+    });
+
+    pythonProcess.on("close", (code) => {
+      console.log("Python script exited with code", code);
+      try {
+        // Assuming your Python script returns JSON like: {"prediction": "Glaucoma", "confidence": 0.9876}
+        const parsedOutput = JSON.parse(output.trim());
+        if (!responseSent) {
+          res.json(parsedOutput);
+          responseSent = true;
+        }
+      } catch (err) {
+        console.error("Error parsing Python output:", err);
+        if (!responseSent) {
+          res.status(500).send("Failed to parse prediction result.");
+          responseSent = true;
+        }
+      }
+    });
+
+    pythonProcess.on("error", (error) => {
+      console.error("Python process error:", error);
+      if (!responseSent) {
+        res.status(500).send("Internal Server Error");
+        responseSent = true;
+      }
+    });
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    if (!responseSent) {
+      res.status(500).send("Unexpected Internal Server Error");
+      responseSent = true;
+    }
+  }
+});
 export default router;

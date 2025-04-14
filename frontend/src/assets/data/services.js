@@ -48,4 +48,12 @@ export const services = [
     bgColor: "rgba(151, 113, 255, .2)",
     textColor: "#9771FF",
   },
+  {
+    "id": "8",
+    "name": "Eye Disease Detection",
+    "desc": "Diabetic retinopathy, cataract, and glaucoma are common eye conditions that can lead to vision loss if left untreated. Diabetic retinopathy damages blood vessels in the retina, cataracts cause clouding of the eye's lens, and glaucoma increases intraocular pressure, harming the optic nerve. Early detection is crucial for effective management and prevention of permanent damage.",
+    "bgColor": "rgba(255, 179, 71, .2)",
+    "textColor": "#FFB347"
+  },
+  
 ];

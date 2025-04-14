@@ -53,22 +53,21 @@ const Symptomchk = () => {
     setIsLoading(true);
     setErrorMessage("");
 
+    // Ask user for prediction type
+    const userChoice = window.confirm("Choose an option:\nOK for Machine Learning result\nCancel for LLM result");
+    
+    // Determine API endpoint based on user choice
+    const apiUrl = userChoice ? `${BASE_URL}/symptoms` : `${BASE_URL}/llm/symptoms`;
+
     try {
-        // ✅ Directly pass the object (no need to stringify)
-        console.log(typeof(symptoms),"this is the type of data",symptoms)
-        const response = await axios.post(`${BASE_URL}/symptoms`, 
-          {
-            data: symptoms,
-          },   
-          {
-              headers: {
-                  'Content-Type': 'application/json',
-              }
-          }
-      );
+        console.log(typeof(symptoms), "this is the type of data", symptoms);
+        
+        const response = await axios.post(apiUrl, { data: symptoms }, {
+            headers: { 'Content-Type': 'application/json' }
+        });
 
         console.log(response);
-
+        
         setDescription(response.data.data.dis_des);
         setPrecaution(response.data.data.my_precautions);
         setMedications(response.data.data.medications);
@@ -76,11 +75,9 @@ const Symptomchk = () => {
         setDiets(response.data.data.rec_diet);
         setDisease(response.data.data.predicted_disease);
         setWarnings(response.data.data.warnings || []);
-
     } catch (error) {
         console.error("Error:", error);
-
-        // ✅ Improved error message handling
+        
         if (error.response) {
             setErrorMessage(`Failed to fetch prediction: ${error.response.data.error || 'Server error'}`);
         } else if (error.request) {
@@ -92,6 +89,7 @@ const Symptomchk = () => {
 
     setIsLoading(false);
 };
+
 
   return (
     <section>

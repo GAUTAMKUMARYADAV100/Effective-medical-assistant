@@ -3,13 +3,14 @@ import Doctor from "../models/DoctorSchema.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
-const generateToken = (user) => {
+export const generateToken = (user) => {
   return jwt.sign(
-    { id: user._id, role: user.role },
-    process.env.JWT_SECRET_KEY,
     {
-      expiresIn: "15d",
-    }
+      id: user._id,
+      role: user.role  // 🔥 This is crucial!
+    },
+    process.env.JWT_SECRET_KEY,
+    { expiresIn: "15d" }
   );
 };
 
@@ -67,50 +68,106 @@ export const register = async (req, res) => {
   }
 };
 
+// export const login = async (req, res) => {
+//   const { email, password } = req.body;
+
+//   try {
+//     let user = null;
+
+//     const patient = await User.findOne({ email });
+//     const doctor = await Doctor.findOne({ email });
+//     const admin = await User.findOne({ email, role: "admin" }); // Add admin check
+
+//     if (patient) {
+//       user = patient;
+//     }
+//     if (doctor) {
+//       user = doctor;
+//     }
+//     if (admin) {
+//       // Handle admin login
+//       user = admin;
+//     }
+
+//     //check if user exist
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+
+//     //compare password
+//     const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+//     if (!isPasswordMatch) {
+//       return res
+//         .status(404)
+//         .json({ status: false, message: "Invalid Credentials, try again" });
+//     }
+
+//     // get token
+//     const token = generateToken(user);
+//     const { password: userPassword, role, appointments, ...rest } = user._doc;
+//     res.status(200).json({
+//       status: true,
+//       message: "Successfully login",
+//       token,
+//       data: { ...rest },
+//       role,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ status: false, message: "Failed to login" });
+//   }
+// };
+
+
 export const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
     let user = null;
 
+    // Look for the user in one of three collections: patient, doctor, or admin
     const patient = await User.findOne({ email });
     const doctor = await Doctor.findOne({ email });
-    const admin = await User.findOne({ email, role: "admin" }); // Add admin check
+    const admin = await User.findOne({ email, role: "admin" });
 
+    // Assign the correct user object
     if (patient) {
       user = patient;
-    }
-    if (doctor) {
+    } else if (doctor) {
       user = doctor;
-    }
-    if (admin) {
-      // Handle admin login
+    } else if (admin) {
       user = admin;
     }
 
-    //check if user exist
+    // If no user is found
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    //compare password
+    // Compare the password with the hash stored in the database
     const isPasswordMatch = await bcrypt.compare(password, user.password);
 
+    // If password doesn't match
     if (!isPasswordMatch) {
-      return res
-        .status(404)
-        .json({ status: false, message: "Invalid Credentials, try again" });
+      return res.status(401).json({ status: false, message: "Invalid credentials, try again" });
     }
 
-    // get token
+    // Generate token with user details
+    
     const token = generateToken(user);
-    const { password: userPassword, role, appointments, ...rest } = user._doc;
+
+    // Destructure user to exclude sensitive information like password
+    const { password: userPassword, ...rest } = user._doc;
+
+    // Return the response with the token and user data
+  
     res.status(200).json({
       status: true,
-      message: "Successfully login",
+      message: "Successfully logged in",
       token,
       data: { ...rest },
-      role,
+      role: user.role, // Include role in response if needed
     });
   } catch (error) {
     console.error(error);

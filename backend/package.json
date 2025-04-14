@@ -1,5 +1,5 @@
 {
-  "name": "ai-medlab",
+  "name": "Effective Medical Assistant",
   "version": "1.0.0",
   "description": "",
   "type": "module",
@@ -13,6 +13,7 @@
   "author": "Effective developers",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.8.4",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
     "cookie-parser": "^1.4.6",
