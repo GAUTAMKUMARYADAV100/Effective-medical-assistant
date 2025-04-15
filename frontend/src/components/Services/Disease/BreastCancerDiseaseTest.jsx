@@ -104,8 +104,8 @@ const BreastCancerPredictor = () => {
             >
               <h3 className="text-center">
                 {prediction.includes("[1]")
-                  ? "Sorry! Please consult your doctor."
-                  : "Great! You are HEALTHY."}
+                  ? "Malignant ! Please consult your doctor."
+                  : "Benign (Healthy)!"}
               </h3>
             </div>
           )}

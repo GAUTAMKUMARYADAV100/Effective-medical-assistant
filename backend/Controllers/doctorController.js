@@ -3,6 +3,7 @@ import Doctor from "../models/DoctorSchema.js";
 
 export const updateDoctor = async (req, res) => {
   const id = req.params.id;
+  console.log("Doctor ID:", id);
   try {
     const updateDoctor = await Doctor.findByIdAndUpdate(
       id,
@@ -72,7 +73,7 @@ export const getAllDoctors = async (req, res) => {
   try {
     const { query } = req.query;
     let doctors;
-    console.log("Search query:", query);
+    // console.log("Search query:", query);
     if (query) {
       doctors = await Doctor.find({
         isApproved: "approved",
@@ -87,7 +88,6 @@ export const getAllDoctors = async (req, res) => {
       );
     }
 
-    console.log("tune meri entry",doctors);
 
     res.status(200).json({
       success: true,

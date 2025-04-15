@@ -34,7 +34,6 @@ export const predictDiabetes = (req, res) => {
   console.log("data: ", data);
   let options = {
     mode: "text",
-    // pythonPath:'C:/Users/Gujrat laptops/.pyenv/pyenv-win/versions/3.7.4/python.exe',
     args: [JSON.stringify(data)],
     pythonOptions: ["-u"],
   };

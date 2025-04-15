@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AiFillStar } from "react-icons/ai";
 import { useParams } from "react-router-dom";
-import { BASE_URL, token } from "../../config";
+import { BASE_URL } from "../../config";
 import { toast } from "react-toastify";
 import HashLoader from "react-spinners/HashLoader";
 
@@ -16,6 +16,7 @@ const FeedbackForm = () => {
     console.log("call");
     e.preventDefault();
     setLoading(true);
+    const token = localStorage.getItem("token");
 
     try {
       if (!rating || !reviewText) {

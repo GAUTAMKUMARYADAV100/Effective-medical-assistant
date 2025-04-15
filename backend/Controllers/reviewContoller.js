@@ -16,11 +16,14 @@ export const getAllReviews = async (req, res) => {
 
 // create review
 export const createReview = async (req, res) => {
+  console.log("Request Body:", req.body);
   if (!req.body.doctor) req.body.doctor = req.params.doctorId;
   if (!req.body.user) req.body.user = req.params.userId;
 
   const newReview = new Review(req.body);
-
+  console.log("New Review:", newReview);
+  console.log("Doctor ID:", req.body.doctor);
+  console.log("User ID:", req.body.user);
   try {
     const savedReview = await newReview.save();
     await Doctor.findByIdAndUpdate(req.body.doctor, {

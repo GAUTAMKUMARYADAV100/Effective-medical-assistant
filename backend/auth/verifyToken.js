@@ -6,7 +6,7 @@ import User from "../models/UserSchema.js";
 export const authenticate = async (req, res, next) => {
   // Get token from headers
   const authToken = req.headers.authorization;
-  // console.log("authToken", authToken);
+  console.log("authToken", authToken);
 
   // Check if token exists
   if (!authToken || !authToken.startsWith("Bearer")) {
@@ -25,7 +25,7 @@ export const authenticate = async (req, res, next) => {
     req.userId = decoded.id;
     req.role = decoded.role;
 
-    // console.log("req.role is set to ",req.role)
+    console.log("req.role is set to ",req.role)
     // Check token expiration
     if (decoded.exp < Date.now() / 1000) {
       return res.status(401).json({ message: "Token is expired" });

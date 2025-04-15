@@ -27,7 +27,13 @@ const Signup = () => {
   const handleFileInputChange = async (event) => {
     const file = event.target.files[0];
     const data = await uploadImageToCloudinary(file);
-
+    if (data?.url) {
+      // Inject width and height into Cloudinary URL
+      const resizedUrl = data.url.replace(
+        "/upload/",
+        "/upload/w_280,h_187,c_fill/"
+      );
+    }
     setPreviewUrl(data.url);
     setSelectedFile(data.url);
     setFormData({ ...formData, photo: data.url });
