@@ -8,7 +8,6 @@ export const getCheckoutSession = async (req, res) => {
     //get currently booked doctor
     const doctor = await Doctor.findById(req.params.doctorId);
     const user = await User.findById(req.userId);
-
     // console.log("Doctor ticket price:", doctor.ticketPrice);
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);

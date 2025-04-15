@@ -4,12 +4,12 @@ import { BASE_URL } from "../../config";
 import Loader from "../../components/Loader/Loading";
 import axios from "axios";
 import { toast } from "react-toastify";
-
+import { useNavigate } from "react-router-dom";
 function DoctorsDropDown({ testName, testResult = null }) {
   const loginUser = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token"); // Assuming you store your token in localStorage
   const [selectedDoctor, setSelectedDoctor] = useState("");
-
+  const navigate = useNavigate();
   const { data: doctors, loading, error } = useFetchData(`${BASE_URL}/doctors`);
 
   const handleSelectChange = (event) => {
@@ -17,33 +17,41 @@ function DoctorsDropDown({ testName, testResult = null }) {
   };
 
   const bookAppointment = async () => {
-    console.log({ testResult });
-    const payload = {
-      doctorId: selectedDoctor,
-      testName: testName.testName,
-      testResult: testResult.testResult,
-      payment: "Pending",
-      price: "100",
-      patientGender: loginUser.gender,
-      patientName: loginUser.name,
-      bookedOn: `${new Date()}`,
-    };
-
-    try {
-      await axios.post(
-        `${BASE_URL}/users/appointments/create-appointment`,
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the headers
-          },
-        }
-      );
-      toast.success("Appointment booking done");
-    } catch (error) {
-      toast.error("Failed to book appointment");
-      console.error(error);
+    if (!selectedDoctor) {
+      toast.error("Please select a doctor before booking an appointment.");
+      return;
     }
+    
+    console.log("Selected Doctor ID:", selectedDoctor);
+    navigate(`/doctors/${selectedDoctor}`);
+    
+    // console.log({ testResult });
+    // const payload = {
+    //   doctorId: selectedDoctor,
+    //   testName: testName.testName,
+    //   testResult: testResult.testResult,
+    //   payment: "Pending",
+    //   price: "100",
+    //   patientGender: loginUser.gender,
+    //   patientName: loginUser.name,
+    //   bookedOn: `${new Date()}`,
+    // };
+
+    // try {
+    //   await axios.post(
+    //     `${BASE_URL}/users/appointments/create-appointment`,
+    //     payload,
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`, // Include the token in the headers
+    //       },
+    //     }
+    //   );
+    //   toast.success("Appointment booking done");
+    // } catch (error) {
+    //   toast.error("Failed to book appointment");
+    //   console.error(error);
+    // }
   };
 
   return (
