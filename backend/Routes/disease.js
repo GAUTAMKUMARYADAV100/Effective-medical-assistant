@@ -377,37 +377,50 @@ router.post("/predict-malaria", upload.single("image"), (req, res) => {
 
 router.post("/predict-eye-disease", upload.single("image"), (req, res) => {
   let responseSent = false;
+  let errorOutput = ""; // To capture all error output
 
   try {
     const imagePath = req.file.path;
-
     const pythonScriptPath = "C:\\Users\\Gautam Kumar Yadav\\Desktop\\tkinterpj\\Effective-medical-assistant\\EffectiveMedicalAssistant\\backend\\eye_disease.py";
 
     const pythonProcess = spawn("python", [pythonScriptPath, imagePath]);
 
     let output = "";
+    console.log("Process started, waiting for output...");
 
     pythonProcess.stdout.on("data", (data) => {
       output += data.toString();
+      console.log("Python stdout:", data.toString());
     });
 
     pythonProcess.stderr.on("data", (data) => {
-      console.error("Python error:", data.toString());
+      const errorData = data.toString();
+      errorOutput += errorData;
+      console.error("Python stderr:", errorData);
     });
 
     pythonProcess.on("close", (code) => {
-      console.log("Python script exited with code", code);
+      console.log(`Python script exited with code ${code}`);
+      console.log("Full output:", output);
+      console.log("Full error output:", errorOutput);
+      
       try {
-        // Assuming your Python script returns JSON like: {"prediction": "Glaucoma", "confidence": 0.9876}
+        if (code !== 0) {
+          throw new Error(`Python script failed with code ${code}: ${errorOutput}`);
+        }
+
         const parsedOutput = JSON.parse(output.trim());
         if (!responseSent) {
           res.json(parsedOutput);
           responseSent = true;
         }
       } catch (err) {
-        console.error("Error parsing Python output:", err);
+        console.error("Error handling output:", err);
         if (!responseSent) {
-          res.status(500).send("Failed to parse prediction result.");
+          res.status(500).json({
+            error: "Prediction failed",
+            details: errorOutput || err.message
+          });
           responseSent = true;
         }
       }
@@ -416,14 +429,21 @@ router.post("/predict-eye-disease", upload.single("image"), (req, res) => {
     pythonProcess.on("error", (error) => {
       console.error("Python process error:", error);
       if (!responseSent) {
-        res.status(500).send("Internal Server Error");
+        res.status(500).json({
+          error: "Failed to start Python process",
+          details: error.message
+        });
         responseSent = true;
       }
     });
+
   } catch (error) {
     console.error("Unexpected error:", error);
     if (!responseSent) {
-      res.status(500).send("Unexpected Internal Server Error");
+      res.status(500).json({
+        error: "Internal server error",
+        details: error.message
+      });
       responseSent = true;
     }
   }

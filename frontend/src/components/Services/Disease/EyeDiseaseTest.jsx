@@ -51,7 +51,7 @@ const EyeDiseaseTest = () => {
   };
 
   return (
-    <div className="m-5 flex flex-col justify-center items-center h-screen w-screen">
+    <div className="m-5 flex flex-col justify-center items-center">
       <div className="w-full md:w-1/2 lg:w-1/2">
         <form
           className="bg-white shadow-lg shadow-gray-500 rounded px-8 pt-6 pb-8 mb-4"
@@ -100,7 +100,7 @@ const EyeDiseaseTest = () => {
                 Predicted Disease: {prediction}
               </h3>
               <p className="text-center mt-2">
-                Confidence Score: {(confidence * 100).toFixed(2)}%
+                Confidence Score: {(confidence ).toFixed(2)}%
               </p>
             </div>
           </div>
