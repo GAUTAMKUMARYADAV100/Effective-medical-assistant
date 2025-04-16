@@ -3,14 +3,13 @@ import numpy as np
 import pickle
 import json
 import pandas as pd
-import os
 
 # Debugging
 print("Python version:", sys.version)
 print("Python executable path:", sys.executable)
 
 # Load the trained model
-pickle_path = os.path.abspath("heart_disease_model.pkl")
+pickle_path = r'C:\Users\Gautam Kumar Yadav\Desktop\tkinterpj\trainedmodel\heart_disease_model.pkl'
 with open(pickle_path, 'rb') as model_file:
     model = pickle.load(model_file)
 
