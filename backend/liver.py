@@ -12,12 +12,12 @@ from sklearn.preprocessing import StandardScaler
 
 
 # Load the trained model
-pickle_path_scaler = os.path.abspath("liver_standard_scaler.pkl")
+pickle_path_scaler = os.path.abspath("./aimodels/liver_standard_scaler.pkl")
 
 with open(pickle_path_scaler, 'rb') as scaler_file:
     scaler = pickle.load(scaler_file)
 
-pickle_path = os.path.abspath("liver.pkl")
+pickle_path = os.path.abspath("./aimodels/liver.pkl")
 
 with open(pickle_path, 'rb') as model_file:
     model = pickle.load(model_file)

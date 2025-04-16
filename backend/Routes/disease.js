@@ -12,8 +12,8 @@ const heartModel = path.resolve("heart.pkl");
 const kidneyModel = path.resolve("model_ckd.pkl");
 const kidneyScaler = path.resolve("scaler_ckd.pkl");
 
-const liverModel = path.resolve("liver.pkl");
-const liverScalerModel = path.resolve("liver_standard_scaler.pkl");
+const liverModel = path.resolve("../aimodels/liver.pkl");
+const liverScalerModel = path.resolve("../aimodels/liver_standard_scaler.pkl");
 
 const breastCancerModel = path.resolve("breast_cancer_model.pkl");
 
