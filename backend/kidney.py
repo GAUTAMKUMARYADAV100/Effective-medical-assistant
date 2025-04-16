@@ -12,7 +12,6 @@ print("Loaded libraries successfully")
 # Paths to your model files (update if needed)
 MODEL_PATH = os.path.abspath("model_ckd.pkl")
 SCALER_PATH = os.path.abspath("scaler_ckd.pkl")
-
 # Your EXACT feature names in correct order
 FEATURE_NAMES = [
     "Age",

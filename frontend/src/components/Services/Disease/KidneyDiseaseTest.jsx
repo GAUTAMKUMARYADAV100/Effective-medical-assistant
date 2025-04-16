@@ -6,23 +6,15 @@ import DcotorsDropDown from "../../DoctorDropDown/DoctorDropDown";
 const KidneyDiseaseTest = () => {
   const [inputData, setInputData] = useState({
     Age: "",
-    BP: "",
-    AL: "",
-    SU: "",
-    RBC: "",
-    PC: "",
-    PCC: "",
-    BA: "",
-    BGR: "",
-    BU: "",
-    SC: "",
-    POT: "",
-    WC: "",
-    HTN: "",
-    DM: "",
-    CAD: "",
-    PE: "",
-    ANE: "",
+    Blood_Pressure: "",
+    Specific_Gravity: "",
+    Albumin: "",
+    Sugar: "",
+    Red_Blood_Cells: "",
+    Pus_Cell: "",
+    Serum_Creatinine: "",
+    Hemoglobin: "",
+    Packed_Cell_Volume: "",
   });
   const [prediction, setPrediction] = useState(null);
   const [formError, setFormError] = useState("");
@@ -35,7 +27,6 @@ const KidneyDiseaseTest = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Check if any field is empty
     const isFormFilled = Object.values(inputData).every(
       (value) => value.trim() !== ""
     );
@@ -69,25 +60,22 @@ const KidneyDiseaseTest = () => {
                     className="border border-black p-2 w-full"
                     type="text"
                     name={name}
-                    placeholder={`${name}`}
+                    placeholder={name.replace(/_/g, " ")}
                     value={value}
                     onChange={handleInputChange}
                   />
                 </div>
               ))}
-              {/* Form error message */}
               {formError && (
                 <div className="text-red-500 mb-4">{formError}</div>
               )}
             </div>
-            {/* Submit button */}
             <input
               type="submit"
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-full mt-3"
               value="Predict"
             />
           </form>
-          {/* Prediction result */}
           {prediction !== null && (
             <div
               className={`mt-3 ${
