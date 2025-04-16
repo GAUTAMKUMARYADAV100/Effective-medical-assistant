@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import pickle
 import json
+import os
 
 # print("Python version:", sys.version)
 # print("Python executable path:", sys.executable)
@@ -10,12 +11,16 @@ symptoms_dict = {'itching': 0, 'skin_rash': 1, 'nodal_skin_eruptions': 2, 'conti
 diseases_list = {15: 'Fungal infection', 4: 'Allergy', 16: 'GERD', 9: 'Chronic cholestasis', 14: 'Drug Reaction', 33: 'Peptic ulcer diseae', 1: 'AIDS', 12: 'Diabetes ', 17: 'Gastroenteritis', 6: 'Bronchial Asthma', 23: 'Hypertension ', 30: 'Migraine', 7: 'Cervical spondylosis', 32: 'Paralysis (brain hemorrhage)', 28: 'Jaundice', 29: 'Malaria', 8: 'Chicken pox', 11: 'Dengue', 37: 'Typhoid', 40: 'hepatitis A', 19: 'Hepatitis B', 20: 'Hepatitis C', 21: 'Hepatitis D', 22: 'Hepatitis E', 3: 'Alcoholic hepatitis', 36: 'Tuberculosis', 10: 'Common Cold', 34: 'Pneumonia', 13: 'Dimorphic hemmorhoids(piles)', 18: 'Heart attack', 39: 'Varicose veins', 26: 'Hypothyroidism', 24: 'Hyperthyroidism', 25: 'Hypoglycemia', 31: 'Osteoarthristis', 5: 'Arthritis', 0: '(vertigo) Paroymsal  Positional Vertigo', 2: 'Acne', 38: 'Urinary tract infection', 35: 'Psoriasis', 27: 'Impetigo'}
 
 # load databasedataset===================================
-sym_des = pd.read_csv(r"C:\Users\Gautam Kumar Yadav\Desktop\tkinterpj\Effective-medical-assistant\EffectiveMedicalAssistant\backend\HealthPredict\symtoms_df.csv")
-precautions = pd.read_csv(r"C:\Users\Gautam Kumar Yadav\Desktop\tkinterpj\Effective-medical-assistant\EffectiveMedicalAssistant\backend\HealthPredict\precautions_df.csv")
-workout = pd.read_csv(r"C:\Users\Gautam Kumar Yadav\Desktop\tkinterpj\Effective-medical-assistant\EffectiveMedicalAssistant\backend\HealthPredict\workout_df.csv")
-description = pd.read_csv(r"C:\Users\Gautam Kumar Yadav\Desktop\tkinterpj\Effective-medical-assistant\EffectiveMedicalAssistant\backend\HealthPredict\description.csv")
-medications = pd.read_csv(r"C:\Users\Gautam Kumar Yadav\Desktop\tkinterpj\Effective-medical-assistant\EffectiveMedicalAssistant\backend\HealthPredict\medications.csv")
-diets = pd.read_csv(r"C:\Users\Gautam Kumar Yadav\Desktop\tkinterpj\Effective-medical-assistant\EffectiveMedicalAssistant\backend\HealthPredict\diets.csv")
+base_dir = os.path.dirname(os.path.abspath(__file__))
+data_dir = os.path.join(base_dir, "HealthPredict")
+
+# Load the CSV files
+sym_des = pd.read_csv(os.path.join(data_dir, "symtoms_df.csv"))
+precautions = pd.read_csv(os.path.join(data_dir, "precautions_df.csv"))
+workout = pd.read_csv(os.path.join(data_dir, "workout_df.csv"))
+description = pd.read_csv(os.path.join(data_dir, "description.csv"))
+medications = pd.read_csv(os.path.join(data_dir, "medications.csv"))
+diets = pd.read_csv(os.path.join(data_dir, "diets.csv"))
 
 # with open(r"C:\Users\Gautam Kumar Yadav\Desktop\tkinterpj\Effective-medical-assistant\EffectiveMedicalAssistant\backend\ai-models\svc.pkl", 'rb') as model_fileL:
 with open("./aimodels/svc.pkl", 'rb') as model_fileL:

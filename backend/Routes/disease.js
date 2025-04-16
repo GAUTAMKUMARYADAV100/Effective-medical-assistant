@@ -308,7 +308,7 @@ router.post("/predict-pneumonia", upload.single("image"), (req, res) => {
     const imagePath = req.file.path;
 
     // Path to the Python script for pneumonia prediction
-    const pythonScriptPathForPneumonia = "C:\\Users\\Gautam Kumar Yadav\\Desktop\\tkinterpj\\Effective-medical-assistant\\EffectiveMedicalAssistant\\backend\\pneumonia.py";
+    const pythonScriptPathForPneumonia = path.resolve("pneumonia.py");
 
     // Spawn a Python process to execute the prediction script
     const pythonProcess = spawn("python", [
@@ -359,7 +359,7 @@ router.post("/predict-malaria", upload.single("image"), (req, res) => {
     const imagePath = req.file.path;
 
     // Path to the Python script for pneumonia prediction
-    const pythonScriptPathForPneumonia = "C:\\Users\\Gautam Kumar Yadav\\Desktop\\tkinterpj\\Effective-medical-assistant\\EffectiveMedicalAssistant\\backend\\malaria.py";
+    const pythonScriptPathForPneumonia = path.resolve("malaria.py");
 
     // Spawn a Python process to execute the prediction script
     const pythonProcess = spawn("python", [
@@ -411,7 +411,7 @@ router.post("/predict-eye-disease", upload.single("image"), (req, res) => {
 
   try {
     const imagePath = req.file.path;
-    const pythonScriptPath = "C:\\Users\\Gautam Kumar Yadav\\Desktop\\tkinterpj\\Effective-medical-assistant\\EffectiveMedicalAssistant\\backend\\eye_disease.py";
+    const pythonScriptPath = path.resolve("eye_disease.py");
 
     const pythonProcess = spawn("python", [pythonScriptPath, imagePath]);
 
