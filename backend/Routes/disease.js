@@ -8,7 +8,10 @@ const router = express.Router();
 const diabetesModel = "E:\\Projects\\emaC1\\Effective-medical-assistant\\backend\\aimodels\\diabetes\\diabetes.pkl";
 const heartModel = "C:\\Users\\Gautam Kumar Yadav\\Desktop\\tkinterpj\\Effective-medical-assistant\\EffectiveMedicalAssistant\\backend\\aimodels\\heart.pkl";
 const kidneyModel = "C:\\Users\\Gautam Kumar Yadav\\Desktop\\tkinterpj\\Effective-medical-assistant\\EffectiveMedicalAssistant\\backend\\aimodels\\kidney.pkl";
-const liverModel = "C:\\Users\\Gautam Kumar Yadav\\Desktop\\tkinterpj\\Effective-medical-assistant\\EffectiveMedicalAssistant\\backend\\aimodels\\kidney.pkl";
+
+const liverModel = "C:\\Users\\Kamlesh\\Downloads\\Effective-medical-assistant-main\\backend\\aimodels\\liver.pkl";
+const liverScalerModel = "C:\\Users\\Kamlesh\\Downloads\\Effective-medical-assistant-main\\backend\\aimodels\\liver_standard_scaler.pkl";
+
 const breastCancerModel = "E:\\Projects\\emaC1\\Effective-medical-assistant\\backend\\aimodels\\breast_cancer\\breast_cancer_model.pkl";
 
 const pythonScriptPathForDiabetes = "E:\\Projects\\emaC1\\Effective-medical-assistant\\backend\\predict.py";
@@ -171,22 +174,38 @@ router.post("/kidney", (req, res) => {
     }
   }
 });
+
 router.post("/liver", (req, res) => {
   try {
+    console.log("Starting liver disease prediction...");
+
     const data = req.body.data;
+    console.log("Received Data:", data);
+
     const pythonProcess = spawn("python", [
       pythonScriptPathForLiver,
       "--loads",
+      liverScalerModel,
       liverModel,
       JSON.stringify(data),
-      'liver'
     ]);
     let prediction = "";
-    let responseSent = false; // Flag to track if response has been sent
+    let responseSent = false;
 
     pythonProcess.stdout.on("data", (data) => {
-      console.log("Python script output:", data.toString());
-      prediction += data.toString();
+      const output = data.toString().trim();
+      console.log("Python script output:", output);
+
+      const lines = output.split("\n");
+      const lastLine = lines[lines.length - 1];
+
+      try {
+        prediction = JSON.parse(lastLine);
+      } catch (error) {
+        console.log("Python script output:", output);
+        console.error("Error parsing JSON:", error);
+        prediction = null;
+      }
     });
 
     pythonProcess.stderr.on("data", (data) => {
@@ -194,10 +213,11 @@ router.post("/liver", (req, res) => {
     });
 
     pythonProcess.on("close", (code) => {
-      console.log("Python process closed with code:", code);
-      console.log("Prediction:", prediction);
+      console.log("Python process exited with code:", code);
+      console.log("Prediction123:", prediction);
       if (!responseSent) {
-        res.json({ prediction });
+        console.log("Prediction:",prediction);
+        res.json({ prediction })
         responseSent = true;
       }
     });
@@ -209,14 +229,16 @@ router.post("/liver", (req, res) => {
         responseSent = true;
       }
     });
+
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Server Error:", error);
     if (!responseSent) {
       res.status(500).send("Internal Server Error");
       responseSent = true;
     }
   }
 });
+
 router.post("/breast-cancer", (req, res) => {
   try {
     const data = req.body.data;
