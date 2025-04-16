@@ -5,13 +5,14 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import json
+import os
 
 # Suppress TensorFlow warnings
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # Suppress all messages
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
 # Model configuration
-MODEL_PATH = "./aimodels/eye_disease_model.h5"
+MODEL_PATH = os.path.abspath("eye_disease_model.h5")
 INPUT_SHAPE = (256, 256)  # Matches your model's expected input
 CLASS_NAMES = ['Cataract', 'Diabetic_Retinopathy', 'Glaucoma', 'Normal']  # Update if different
 
