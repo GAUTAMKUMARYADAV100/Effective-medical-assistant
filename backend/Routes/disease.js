@@ -5,21 +5,23 @@ import path from "path";
 
 const router = express.Router();
 
-const diabetesModel = "E:\\Projects\\emaC1\\Effective-medical-assistant\\backend\\aimodels\\diabetes\\diabetes.pkl";
-const heartModel = "C:\\Users\\Gautam Kumar Yadav\\Desktop\\tkinterpj\\Effective-medical-assistant\\EffectiveMedicalAssistant\\backend\\aimodels\\heart.pkl";
-const kidneyModel = "C:\\Users\\Gautam Kumar Yadav\\Desktop\\tkinterpj\\Effective-medical-assistant\\EffectiveMedicalAssistant\\backend\\aimodels\\kidney.pkl";
+//const path = require('path');
 
-const liverModel = "C:\\Users\\Kamlesh\\Downloads\\Effective-medical-assistant-main\\backend\\aimodels\\liver.pkl";
-const liverScalerModel = "C:\\Users\\Kamlesh\\Downloads\\Effective-medical-assistant-main\\backend\\aimodels\\liver_standard_scaler.pkl";
+const diabetesModel = path.resolve("diabetes.pkl");
+const heartModel = path.resolve("heart.pkl");
+const kidneyModel = path.resolve("model_ckd.pkl");
+const kidneyScaler = path.resolve("scaler_ckd.pkl");
 
-const breastCancerModel = "E:\\Projects\\emaC1\\Effective-medical-assistant\\backend\\aimodels\\breast_cancer\\breast_cancer_model.pkl";
+const liverModel = path.resolve("liver.pkl");
+const liverScalerModel = path.resolve("liver_standard_scaler.pkl");
 
-const pythonScriptPathForDiabetes = "E:\\Projects\\emaC1\\Effective-medical-assistant\\backend\\predict.py";
-const pythonScriptPathForHeart = "C:\\Users\\Gautam Kumar Yadav\\Desktop\\tkinterpj\\Effective-medical-assistant\\EffectiveMedicalAssistant\\backend\\heart.py";
-const pythonScriptPathForKidney = "C:\\Users\\Gautam Kumar Yadav\\Desktop\\tkinterpj\\Effective-medical-assistant\\EffectiveMedicalAssistant\\backend\\kidney.py";
-const pythonScriptPathForLiver = "C:\\Users\\Gautam Kumar Yadav\\Desktop\\tkinterpj\\Effective-medical-assistant\\EffectiveMedicalAssistant\\backend\\kidney.py";
-const pythonScriptPathForBreastCancer =
-  "E:\\Projects\\emaC1\\Effective-medical-assistant\\backend\\breast-cancer.py";
+const breastCancerModel = path.resolve("breast_cancer_model.pkl");
+
+const pythonScriptPathForDiabetes = path.resolve("predict.py");
+const pythonScriptPathForHeart = path.resolve("heart.py");
+const pythonScriptPathForKidney = path.resolve("kidney.py");
+const pythonScriptPathForLiver = path.resolve("kidney.py");  // same as kidney here
+const pythonScriptPathForBreastCancer = path.resolve("breast-cancer.py");
 
 
 router.post("/diabetes", (req, res) => {
@@ -135,6 +137,7 @@ router.post("/kidney", (req, res) => {
       pythonScriptPathForKidney,
       "--loads",
       kidneyModel,
+      kidneyScaler,
       JSON.stringify(data),
       'kidney',
     ]);
