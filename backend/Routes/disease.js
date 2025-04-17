@@ -23,7 +23,6 @@ const pythonScriptPathForKidney = path.resolve("kidney.py");
 const pythonScriptPathForLiver = path.resolve("kidney.py");  // same as kidney here
 const pythonScriptPathForBreastCancer = path.resolve("breast-cancer.py");
 
-
 router.post("/diabetes", (req, res) => {
   try {
     const data = req.body.data;
