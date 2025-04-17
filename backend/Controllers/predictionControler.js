@@ -84,9 +84,14 @@ export const predictLiver = (req, res) => {
 };
 
 export const predictMalaria = (req, res) => {
-  // Handle malaria prediction
+  // Handle malaria prediction  const input = req.body.input;
+  const prediction = malaria.predict(input);
+  res.json({ prediction });
 };
 
 export const predictPneumonia = (req, res) => {
   // Handle pneumonia prediction
+  const prediction = pneumonia.predict(input);
+  res.json({ prediction });
 };
+
